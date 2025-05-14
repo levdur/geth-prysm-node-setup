@@ -24,7 +24,7 @@ echo -e "${GREEN}2. Docker kuruluyor...${RESET}"
 for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove -y $pkg; done
 sudo apt-get install ca-certificates curl gnupg -y
 sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /tmp/docker.gpg && sudo mv -f /tmp/docker.gpg /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
@@ -111,13 +111,11 @@ echo -e "${GREEN}6. Node başlatılıyor...${RESET}"
 cd /root/ethereum
 docker compose up -d
 
+echo -e "${GREEN}"
+echo "✔ Node'lar şu anda senkronize olmaya başladı."
+echo "⏳ Senkronizasyon birkaç saat sürebilir. Lütfen bu sürede node'ları durdurmayın."
 echo ""
-echo "✔ Kurulum tamamlandı."
+echo "🔗Adımları Takip Edin: https://github.com/UfukNode/ufuk-geth-prysm-installer"
 echo ""
-echo "Node'lar şu anda senkronize olmaya başladı."
-echo "Senkronizasyon birkaç saat sürebilir. Lütfen bu sürede node'ları durdurmayın."
-echo ""
-echo "Durumlarını ve nasıl kontrol edileceğini öğrenmek için aşağıdaki GitHub rehberini takip edin:"
-echo "https://github.com/UfukNode/ufuk-geth-prysm-installer"
-echo ""
-echo "Aztec Sequencer başlatmadan önce hem Geth hem de Prysm node'larının tam senkronize olduğundan emin olun."
+echo "⚠️ Aztec Sequencer başlatmadan önce hem Geth hem de Prysm node'larının TAM senkronize olduğundan emin olun."
+echo -e "${RESET}"
