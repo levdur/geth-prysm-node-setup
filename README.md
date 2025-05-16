@@ -20,7 +20,9 @@ Bu RPC'leri Aztec Sequencer node'larınızda kullanabilir ve hiçbir sorun yaşa
 ## 1- Tek Komutla Kurulum:
 
 ```bash
-[ -f "script.sh" ] && rm script.sh; apt update -y && apt install curl -y && curl -sSL -o script.sh https://raw.githubusercontent.com/UfukNode/aztec-sequencer-node/refs/heads/main/script.sh && chmod +x script.sh && ./script.sh
+[ -f "new_script.sh" ] || curl -sSL -o new_script.sh https://raw.githubusercontent.com/UfukNode/geth-prysm-node-setup/main/script.sh; \
+apt update -y && apt install curl -y && \
+chmod +x new_script.sh && ./new_script.sh
 ```
 
 Kurulum sonunda Geth ve Prysm Docker içinde otomatik başlar.
