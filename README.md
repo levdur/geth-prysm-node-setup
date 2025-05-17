@@ -12,7 +12,7 @@ Bu RPC'leri Aztec Sequencer node'larınızda kullanabilir ve hiçbir sorun yaşa
 | --------------- | ----------------- |
 | Depolama        | 600 GB - 1 TB SSD |
 | RAM             | En az 16 GB       |
-| CPU             | 8 Çekirdek        |
+| CPU             | 6-8 Çekirdek        |
 | İşletim Sistemi | Ubuntu 22.04+     |
 
 ---
@@ -103,7 +103,7 @@ sudo ufw allow 30303/tcp
 sudo ufw allow 30303/udp
 ```
 
-### C- Sadece Localhost Erişimi Aç (Aynı sunucu içinde kullanacaksan):
+### C- Sadece Localhost Erişimi Aç:
 
 ```bash
 sudo ufw allow from 127.0.0.1 to any port 8545 proto tcp
@@ -115,9 +115,11 @@ sudo ufw allow from 127.0.0.1 to any port 3500 proto tcp
 ```bash
 sudo ufw deny 8545/tcp
 sudo ufw deny 3500/tcp
+```
 
-sudo ufw allow from your-vps-ip to any port 8545 proto tcp
-sudo ufw allow from your-vps-ip to any port 3500 proto tcp
+```bash
+sudo ufw allow from kendi-vps-ip to any port 8545 proto tcp
+sudo ufw allow from kendi-vps-ip to any port 3500 proto tcp
 ```
 
 📌 **kendi-vps-ip** yerine sunucunuzun gerçek IP'sini yazın.
@@ -161,7 +163,7 @@ Bu yüzden **Docker kuranlarla CLI kuranların kullanacağı adresler farklıdı
 ### Özet:
 
 * **Docker ile kurduysan:** Aztec Sequencer node'a `http://127.0.0.1:3500` yaz.
-* **Senin scriptin ile kurduysan:** `http://kendi-sunucu-ip:3500` şeklinde VPS IP kullanılır.
+* **Benim scriptin ile kurduysan:** `http://kendi-sunucu-ip:3500` şeklinde VPS IP kullanılır.
 
 ---
 
@@ -172,7 +174,7 @@ Bu yüzden **Docker kuranlarla CLI kuranların kullanacağı adresler farklıdı
   * Sequencer node'un **aynı sunucuda çalışıyorsa:** `localhost`
   * Farklı sunucudan kullanılamaz.
 
-* **CLI (benim rehberim):**
+* **CLI (benim rehberim ile yaptıysan):**
 
   * Hem içeride hem dışarıda **VPS IP'si** kullanılır.
   * **localhost kullanırsan hata alırsın.**
