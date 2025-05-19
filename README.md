@@ -86,7 +86,7 @@ df -h
 
 ---
 
-## 4- VPS Güvenlik Duvarı Ayarları (Mutlaka Yapılmalı):
+## 4- VPS Güvenlik Duvarı Ayarları (Mutlaka Yapılmalı)
 
 ### A- Duvarı Aktif Et:
 
@@ -103,28 +103,16 @@ sudo ufw allow 30303/tcp
 sudo ufw allow 30303/udp
 ```
 
-### C- Sadece Localhost Erişimi Aç:
+### C- Hem Lokal Hem Dış IP İçin Geth & Prysm RPC Portlarını Aç:
 
 ```bash
+sudo ufw allow 8545/tcp
+sudo ufw allow 3500/tcp
 sudo ufw allow from 127.0.0.1 to any port 8545 proto tcp
 sudo ufw allow from 127.0.0.1 to any port 3500 proto tcp
 ```
 
-### D- Dışarıdan VPS IP Üzerinden Kullanım:
-
-```bash
-sudo ufw deny 8545/tcp
-sudo ufw deny 3500/tcp
-```
-
-```bash
-sudo ufw allow from kendi-vps-ip to any port 8545 proto tcp
-sudo ufw allow from kendi-vps-ip to any port 3500 proto tcp
-```
-
-📌 **kendi-vps-ip** yerine sunucunuzun gerçek IP'sini yazın.
-
-### E- Duvar Ayarlarını Uygula:
+### D- Duvar Ayarlarını Uygula:
 
 ```bash
 sudo ufw reload
