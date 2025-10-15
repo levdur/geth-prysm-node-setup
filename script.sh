@@ -31,6 +31,7 @@ sudo apt update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo systemctl enable docker
 sudo systemctl restart docker
+
 echo -e "${GREEN}3. Dizinler oluşturuluyor...${RESET}"
 mkdir -p /root/ethereum/execution
 mkdir -p /root/ethereum/consensus
@@ -38,7 +39,7 @@ mkdir -p /root/ethereum/consensus
 echo -e "${GREEN}4. JWT secret oluşturuluyor...${RESET}"
 openssl rand -hex 32 > /root/ethereum/jwt.hex
 
-echo -e "${GREEN}5. docker-compose.yml yazılıyor (Fusaka uyumlu)...${RESET}"
+echo -e "${GREEN}5. docker-compose.yml yazılıyor...${RESET}"
 cat <<EOF > /root/ethereum/docker-compose.yml
 version: "3.9"
 services:
@@ -58,13 +59,12 @@ services:
     command:
       - --sepolia
       - --http
-      - --http.api=eth,net,web3,engine,admin
+      - --http.api=eth,net,web3
       - --http.addr=0.0.0.0
       - --authrpc.addr=0.0.0.0
       - --authrpc.vhosts=*
       - --authrpc.jwtsecret=/data/jwt.hex
       - --authrpc.port=8551
-      - --blobserver.enable-sample-subnet  
       - --syncmode=snap
       - --datadir=/data
     logging:
@@ -86,7 +86,7 @@ services:
       - 4000:4000
       - 3500:3500
     command:
-       - --sepolia
+      - --sepolia
       - --accept-terms-of-use
       - --datadir=/data
       - --execution-endpoint=http://geth:8551
@@ -106,16 +106,15 @@ services:
         max-file: "3"
 EOF
 
-echo -e "${GREEN}6. Node’lar başlatılıyor...${RESET}"
+echo -e "${GREEN}6. Node başlatılıyor...${RESET}"
 cd /root/ethereum
 docker compose up -d
 
 echo -e "${GREEN}"
-echo "✔ Node’lar şu anda Fusaka uyumlu konfigürasyon ile senkronize olmaya başladı."
-echo "⏳ Senkronizasyon birkaç saat sürebilir. Lütfen node’ları durdurmayın."
+echo "✔ Node'lar şu anda senkronize olmaya başladı."
+echo "⏳ Senkronizasyon birkaç saat sürebilir. Lütfen bu sürede node'ları durdurmayın."
 echo ""
-echo "🔗 Adımları Takip Edin: (revize edilmiş kılavuz linki ekle)"
+echo "🔗Adımları Takip Edin: https://github.com/UfukNode/ufuk-geth-prysm-installer"
 echo ""
-echo "⚠️ Aztec Sequencer ya da diğer bileşenleri başlatmadan önce Geth ve Prysm’in TAM senkronize olduğundan emin olun."
+echo "⚠️ Aztec Sequencer başlatmadan önce hem Geth hem de Prysm node'larının TAM senkronize olduğundan emin olun."
 echo -e "${RESET}"
-
