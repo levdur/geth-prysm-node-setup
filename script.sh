@@ -44,7 +44,7 @@ cat <<EOF > /root/ethereum/docker-compose.yml
 version: "3.9"
 services:
   geth:
-    image: ethereum/client-go:v1.17.0
+    image: ethereum/client-go:latest
     container_name: geth
     restart: unless-stopped
     ports:
