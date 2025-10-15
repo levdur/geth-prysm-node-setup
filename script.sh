@@ -31,7 +31,6 @@ sudo apt update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo systemctl enable docker
 sudo systemctl restart docker
-
 echo -e "${GREEN}3. Dizinler oluşturuluyor...${RESET}"
 mkdir -p /root/ethereum/execution
 mkdir -p /root/ethereum/consensus
