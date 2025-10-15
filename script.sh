@@ -13,7 +13,7 @@ echo "██    ██ █████   ██   ██ █████  "
 echo "██    ██ ██      ██   ██ ██  ██ "
 echo "████████ ██      ███████ ██   ██"
 echo -e "${RESET}"
-echo -e "${GREEN}Script başlatılıyor: Ufuk tarafından hazırlanmıştır.${RESET}"
+echo -e "${GREEN}Script başlatılıyor: Ufuk tarafından revize (Fusaka destekli).${RESET}"
 sleep 2
 
 echo -e "${GREEN}1. Gerekli paketler kuruluyor...${RESET}"
@@ -39,7 +39,7 @@ mkdir -p /root/ethereum/consensus
 echo -e "${GREEN}4. JWT secret oluşturuluyor...${RESET}"
 openssl rand -hex 32 > /root/ethereum/jwt.hex
 
-echo -e "${GREEN}5. docker-compose.yml yazılıyor...${RESET}"
+echo -e "${GREEN}5. docker-compose.yml yazılıyor (Fusaka uyumlu)...${RESET}"
 cat <<EOF > /root/ethereum/docker-compose.yml
 version: "3.9"
 services:
@@ -59,12 +59,16 @@ services:
     command:
       - --sepolia
       - --http
-      - --http.api=eth,net,web3
+      - --http.api=eth,net,web3,engine,admin
       - --http.addr=0.0.0.0
       - --authrpc.addr=0.0.0.0
       - --authrpc.vhosts=*
       - --authrpc.jwtsecret=/data/jwt.hex
       - --authrpc.port=8551
+      # *** Fusaka / PeerDAS / blob özellikleri için ek flag’ler ***
+      # Örnek olarak (isimler değişebilir, client versiyonuna göre ayarlanmalı):
+      - --blobserver.enable-sample-subnet  # örnek flag
+      - --blobserver.max-sample-rate=xxxx   # örnek değer
       - --syncmode=snap
       - --datadir=/data
     logging:
@@ -74,7 +78,7 @@ services:
         max-file: "3"
 
   prysm:
-    image: gcr.io/prysmaticlabs/prysm/beacon-chain
+    image: gcr.io/prysmaticlabs/prysm/beacon-chain:stable
     container_name: prysm
     restart: unless-stopped
     volumes:
@@ -100,7 +104,9 @@ services:
       - --min-sync-peers=7
       - --checkpoint-sync-url=https://checkpoint-sync.sepolia.ethpandaops.io
       - --genesis-beacon-api-url=https://checkpoint-sync.sepolia.ethpandaops.io
-      - --subscribe-all-data-subnets
+      # *** Fusaka ile ilgili ek flag’ler (örnek) ***
+      - --subscribe-all-data-subnets    # tüm veri alt ağlarını izle
+      - --peerdas.supernode-mode        # supernode / peerdas modu
     logging:
       driver: "json-file"
       options:
@@ -108,15 +114,16 @@ services:
         max-file: "3"
 EOF
 
-echo -e "${GREEN}6. Node başlatılıyor...${RESET}"
+echo -e "${GREEN}6. Node’lar başlatılıyor...${RESET}"
 cd /root/ethereum
 docker compose up -d
 
 echo -e "${GREEN}"
-echo "✔ Node'lar şu anda senkronize olmaya başladı."
-echo "⏳ Senkronizasyon birkaç saat sürebilir. Lütfen bu sürede node'ları durdurmayın."
+echo "✔ Node’lar şu anda Fusaka uyumlu konfigürasyon ile senkronize olmaya başladı."
+echo "⏳ Senkronizasyon birkaç saat sürebilir. Lütfen node’ları durdurmayın."
 echo ""
-echo "🔗Adımları Takip Edin: https://github.com/UfukNode/ufuk-geth-prysm-installer"
+echo "🔗 Adımları Takip Edin: (revize edilmiş kılavuz linki ekle)"
 echo ""
-echo "⚠️ Aztec Sequencer başlatmadan önce hem Geth hem de Prysm node'larının TAM senkronize olduğundan emin olun."
+echo "⚠️ Aztec Sequencer ya da diğer bileşenleri başlatmadan önce Geth ve Prysm’in TAM senkronize olduğundan emin olun."
 echo -e "${RESET}"
+
