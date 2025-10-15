@@ -13,7 +13,7 @@ echo "██    ██ █████   ██   ██ █████  "
 echo "██    ██ ██      ██   ██ ██  ██ "
 echo "████████ ██      ███████ ██   ██"
 echo -e "${RESET}"
-echo -e "${GREEN}Script başlatılıyor: Ufuk tarafından revize (Fusaka destekli).${RESET}"
+echo -e "${GREEN}Script başlatılıyor: Ufuk tarafından hazırlanmıştır.${RESET}"
 sleep 2
 
 echo -e "${GREEN}1. Gerekli paketler kuruluyor...${RESET}"
