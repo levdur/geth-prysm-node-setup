@@ -44,7 +44,7 @@ cat <<EOF > /root/ethereum/docker-compose.yml
 version: "3.9"
 services:
   geth:
-    image: ethereum/client-go:stable
+    image: ethereum/client-go:latest
     container_name: geth
     restart: unless-stopped
     ports:
@@ -75,7 +75,7 @@ services:
         max-file: "3"
 
   prysm:
-    image: gcr.io/prysmaticlabs/prysm/beacon-chain:stable
+    image: gcr.io/prysmaticlabs/prysm/beacon-chain:latest
     container_name: prysm
     restart: unless-stopped
     volumes:
