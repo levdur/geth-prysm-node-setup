@@ -65,10 +65,7 @@ services:
       - --authrpc.vhosts=*
       - --authrpc.jwtsecret=/data/jwt.hex
       - --authrpc.port=8551
-      # *** Fusaka / PeerDAS / blob özellikleri için ek flag’ler ***
-      # Örnek olarak (isimler değişebilir, client versiyonuna göre ayarlanmalı):
-      - --blobserver.enable-sample-subnet  # örnek flag
-      - --blobserver.max-sample-rate=xxxx   # örnek değer
+      - --blobserver.enable-sample-subnet  
       - --syncmode=snap
       - --datadir=/data
     logging:
@@ -90,23 +87,19 @@ services:
       - 4000:4000
       - 3500:3500
     command:
-      - --sepolia
+       - --sepolia
       - --accept-terms-of-use
       - --datadir=/data
-      - --disable-monitoring
-      - --rpc-host=0.0.0.0
       - --execution-endpoint=http://geth:8551
       - --jwt-secret=/data/jwt.hex
-      - --rpc-port=4000
-      - --grpc-gateway-corsdomain=*
-      - --grpc-gateway-host=0.0.0.0
-      - --grpc-gateway-port=3500
-      - --min-sync-peers=7
       - --checkpoint-sync-url=https://checkpoint-sync.sepolia.ethpandaops.io
       - --genesis-beacon-api-url=https://checkpoint-sync.sepolia.ethpandaops.io
-      # *** Fusaka ile ilgili ek flag’ler (örnek) ***
-      - --subscribe-all-data-subnets    # tüm veri alt ağlarını izle
-      - --peerdas.supernode-mode        # supernode / peerdas modu
+      - --subscribe-all-data-subnets
+      - --rpc-host=0.0.0.0
+      - --rpc-port=4000
+      - --grpc-gateway-host=0.0.0.0
+      - --grpc-gateway-port=3500
+      - --disable-monitoring
     logging:
       driver: "json-file"
       options:
