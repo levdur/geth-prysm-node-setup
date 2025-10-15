@@ -74,31 +74,32 @@ services:
         max-file: "3"
 
   prysm:
-    image: gcr.io/prysmaticlabs/prysm/beacon-chain:latest
+    image: gcr.io/offchainlabs/prysm/beacon-chain:v6.1.2
     container_name: prysm
     restart: unless-stopped
+    depends_on:
+      - geth
     volumes:
       - /root/ethereum/consensus:/data
       - /root/ethereum/jwt.hex:/data/jwt.hex
-    depends_on:
-      - geth
-    ports:
-      - 4000:4000
-      - 3500:3500
     command:
       - --sepolia
       - --accept-terms-of-use
       - --datadir=/data
       - --execution-endpoint=http://geth:8551
       - --jwt-secret=/data/jwt.hex
-      - --checkpoint-sync-url=https://checkpoint-sync.sepolia.ethpandaops.io
-      - --genesis-beacon-api-url=https://checkpoint-sync.sepolia.ethpandaops.io
+      - --checkpoint-sync-url=https://sepolia.beaconstate.info
+      - --genesis-beacon-api-url=https://sepolia.beaconstate.info
       - --subscribe-all-data-subnets
       - --rpc-host=0.0.0.0
       - --rpc-port=4000
       - --grpc-gateway-host=0.0.0.0
       - --grpc-gateway-port=3500
       - --disable-monitoring
+      - --suggested-fee-recipient=0x2413a7B7c495407127cAa487721f3b8321CF65aA 
+    ports:
+      - 4000:4000
+      - 3500:3500
     logging:
       driver: "json-file"
       options:
